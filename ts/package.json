@@ -1,0 +1,44 @@
+{
+  "name": "lean-interact",
+  "version": "0.11.6",
+  "description": "TypeScript port of LeanInteract: interact with the Lean 4 theorem prover through the Lean REPL.",
+  "keywords": [
+    "Lean",
+    "theorem proving",
+    "autoformalization",
+    "REPL"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "lean-interact": "./dist/cli.js",
+    "install-lean": "./dist/cli.js",
+    "clear-lean-cache": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "tsc -p tsconfig.test.json && node --test --test-concurrency=1 'build-test/test/*.test.js'",
+    "test:e2e": "tsc -p tsconfig.test.json && LEAN_INTERACT_E2E=1 node --test --test-concurrency=1 build-test/test/e2e.test.js",
+    "clean": "rm -rf dist build-test"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
