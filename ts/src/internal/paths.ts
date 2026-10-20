@@ -21,9 +21,15 @@ export function defaultCacheDir(): string {
   return join(base, "lean_interact");
 }
 
-/** `owner/repo` path components of a git URL (`.git` stripped), mirroring the Python logic. */
+/**
+ * `owner/repo` path components of a git URL or local path (`.git` stripped), based on the Python
+ * logic. Both slash kinds separate components, and characters that are invalid in Windows file
+ * names (such as the `:` of `C:` or `git@host:owner`) become `_`; Python splits on `/` only and
+ * fails on both.
+ */
 export function repoPathParts(url: string): string[] {
-  const parts = url.split("/");
-  if (parts.length >= 2) return [parts[parts.length - 2], parts[parts.length - 1].replace(".git", "")];
-  return [url.replace(".git", "")];
+  const clean = (s: string) => s.replaceAll(".git", "").replace(/[:*?"<>|]/g, "_");
+  const parts = url.split(/[/\\]/).filter((p) => p !== "");
+  if (parts.length >= 2) return [clean(parts[parts.length - 2]!), clean(parts[parts.length - 1]!)];
+  return [clean(parts[0] ?? url)];
 }

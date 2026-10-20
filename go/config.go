@@ -169,12 +169,28 @@ func (c *Config) prepareLocalREPL() error {
 	return nil
 }
 
+// repoNameFromURL returns the owner/repo cache path of a git URL or local
+// path. Both slash kinds separate components, and characters that are invalid
+// in Windows file names (such as the ':' of "C:" or "git@host:owner") become
+// '_'; Python splits on '/' only and fails on both.
 func repoNameFromURL(url string) string {
-	parts := strings.Split(url, "/")
-	if len(parts) >= 2 {
-		return filepath.Join(parts[len(parts)-2], strings.ReplaceAll(parts[len(parts)-1], ".git", ""))
+	clean := func(s string) string {
+		s = strings.ReplaceAll(s, ".git", "")
+		return strings.Map(func(r rune) rune {
+			if strings.ContainsRune(`:*?"<>|`, r) {
+				return '_'
+			}
+			return r
+		}, s)
 	}
-	return strings.ReplaceAll(url, ".git", "")
+	parts := strings.FieldsFunc(url, func(r rune) bool { return r == '/' || r == '\\' })
+	switch {
+	case len(parts) >= 2:
+		return filepath.Join(clean(parts[len(parts)-2]), clean(parts[len(parts)-1]))
+	case len(parts) == 1:
+		return clean(parts[0])
+	}
+	return clean(url)
 }
 
 func (c *Config) prepareGitREPL(ctx context.Context) error {

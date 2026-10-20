@@ -42,8 +42,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json --noEmit",
-    "test": "tsc -p tsconfig.test.json && node --test --test-concurrency=1 'build-test/test/*.test.js'",
-    "test:e2e": "tsc -p tsconfig.test.json && LEAN_INTERACT_E2E=1 node --test --test-concurrency=1 build-test/test/e2e.test.js",
+    "test": "tsc -p tsconfig.test.json && node scripts/run-tests.mjs",
+    "test:e2e": "tsc -p tsconfig.test.json && node scripts/run-tests.mjs --e2e",
     "clean": "rm -rf dist build-test"
   },
   "devDependencies": {

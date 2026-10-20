@@ -1,6 +1,9 @@
 package leaninteract
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 // Ported from LeanInteract tests/test_utils.py.
 
@@ -146,5 +149,21 @@ func TestVersions(t *testing.T) {
 	}
 	if lakeInitTemplate("v4.7.0") != "exe" || lakeInitTemplate("v4.8.0-rc1") != "exe.lean" {
 		t.Fatal("lake init template")
+	}
+}
+
+func TestRepoNameFromURL(t *testing.T) {
+	for url, want := range map[string]string{
+		"https://github.com/augustepoiroux/repl":     filepath.Join("augustepoiroux", "repl"),
+		"https://github.com/augustepoiroux/repl.git": filepath.Join("augustepoiroux", "repl"),
+		"git@github.com:owner/repo.git":              filepath.Join("git@github.com_owner", "repo"),
+		`C:\Users\runner\Temp\owner\repl`:            filepath.Join("owner", "repl"),
+		`C:\Users\runner\Temp\owner\repl.git`:        filepath.Join("owner", "repl"),
+		"/tmp/owner/repl":                            filepath.Join("owner", "repl"),
+		"repl.git":                                   "repl",
+	} {
+		if got := repoNameFromURL(url); got != want {
+			t.Errorf("repoNameFromURL(%q) = %q, want %q", url, got, want)
+		}
 	}
 }

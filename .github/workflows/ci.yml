@@ -50,7 +50,7 @@ jobs:
       - run: npm test
         if: runner.os != 'Windows'
       # The fake-REPL tests use POSIX shell scripts; on Windows run the pure tests only.
-      - run: npx tsc -p tsconfig.test.json && node --test build-test/test/utils.test.js build-test/test/interface.test.js build-test/test/filelock.test.js
+      - run: npx tsc -p tsconfig.test.json && node scripts/run-tests.mjs build-test/test/utils.test.js build-test/test/interface.test.js build-test/test/filelock.test.js
         if: runner.os == 'Windows'
 
   e2e:
@@ -75,7 +75,7 @@ jobs:
           cache-dependency-path: ts/package-lock.json
       - name: Install elan
         run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path --default-toolchain none
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path --default-toolchain stable
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - uses: actions/cache@v4
         with:

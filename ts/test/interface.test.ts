@@ -17,6 +17,7 @@ import {
   unpickleEnvironment,
   unpickleProofState,
 } from "../src/index.js";
+import { repoPathParts } from "../src/internal/paths.js";
 
 test("requestKind from tags and from keys", () => {
   assert.equal(requestKind(command({ cmd: "x" })), "Command");
@@ -182,4 +183,17 @@ test("InfoTree traversal and helpers", () => {
 test("CommandResponse builds InfoTree instances", () => {
   const res = new CommandResponse({ env: 0, infotree: [{ kind: "CommandInfo", node: null, children: [] }] });
   assert.ok(res.infotree![0] instanceof InfoTree);
+});
+
+test("repoPathParts handles URLs, scp-style remotes and Windows paths", () => {
+  const cases: Array<[string, string[]]> = [
+    ["https://github.com/augustepoiroux/repl", ["augustepoiroux", "repl"]],
+    ["https://github.com/augustepoiroux/repl.git", ["augustepoiroux", "repl"]],
+    ["git@github.com:owner/repo.git", ["git@github.com_owner", "repo"]],
+    ["C:\\Users\\runner\\Temp\\owner\\repl", ["owner", "repl"]],
+    ["C:\\Users\\runner\\Temp\\owner\\repl.git", ["owner", "repl"]],
+    ["/tmp/owner/repl", ["owner", "repl"]],
+    ["repl.git", ["repl"]],
+  ];
+  for (const [url, want] of cases) assert.deepEqual(repoPathParts(url), want, url);
 });
