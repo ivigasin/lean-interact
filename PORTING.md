@@ -6,7 +6,7 @@ from `https://github.com/augustepoiroux/repl`).
 Layout:
 
 ```
-go/   Go module   github.com/igorvigasin/lean-interact/go   (package leaninteract, cmd/lean-interact)
+go/   Go module   github.com/ivigasin/lean-interact/go   (package leaninteract, cmd/lean-interact)
 ts/   npm package lean-interact                             (ESM + .d.ts, bin lean-interact)
 ```
 

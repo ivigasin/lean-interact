@@ -6,11 +6,11 @@ through tactics, extract declarations and InfoTrees, pickle states, and run many
 parallel. No third-party dependencies.
 
 ```
-go get github.com/igorvigasin/lean-interact/go
+go get github.com/ivigasin/lean-interact/go
 ```
 
 Requirements: Go ≥ 1.23, `git`, and Lean's `lake` on `PATH` (install it with
-`go run github.com/igorvigasin/lean-interact/go/cmd/lean-interact install-lean`, or see
+`go run github.com/ivigasin/lean-interact/go/cmd/lean-interact install-lean`, or see
 the [Lean docs](https://leanprover-community.github.io/get_started.html)).
 
 ## Basic usage
@@ -135,8 +135,8 @@ for _, tree := range r.InfoTree {
 ## CLI
 
 ```
-go run github.com/igorvigasin/lean-interact/go/cmd/lean-interact install-lean
-go run github.com/igorvigasin/lean-interact/go/cmd/lean-interact clear-cache
+go run github.com/ivigasin/lean-interact/go/cmd/lean-interact install-lean
+go run github.com/ivigasin/lean-interact/go/cmd/lean-interact clear-cache
 ```
 
 ## Differences from Python

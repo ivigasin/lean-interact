@@ -9,6 +9,15 @@
     "REPL"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivigasin/lean-interact.git",
+    "directory": "ts"
+  },
+  "homepage": "https://github.com/ivigasin/lean-interact/tree/main/ts#readme",
+  "bugs": {
+    "url": "https://github.com/ivigasin/lean-interact/issues"
+  },
   "type": "module",
   "engines": {
     "node": ">=20"

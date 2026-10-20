@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 
-	leaninteract "github.com/igorvigasin/lean-interact/go"
+	leaninteract "github.com/ivigasin/lean-interact/go"
 )
 
 func usage() {
